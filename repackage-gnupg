@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 basedir=${PWD}
-version=2.3.4
+version="$(cat VERSION | tr -d '\n')"
 target=${basedir}/target
 repackage=${basedir}/repackage
 downloads=${basedir}/downloads
