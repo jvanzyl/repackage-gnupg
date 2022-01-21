@@ -5,7 +5,7 @@ version=2.3.4
 target=${basedir}/target
 repackage=${basedir}/repackage
 downloads=${basedir}/downloads
-file=${downloads}/GnuPG-${version}.dmg
+file=GnuPG-${version}.dmg
 
 rm -rf ${repackage} > /dev/null 2>&1
 mkdir ${repackage}
@@ -13,14 +13,15 @@ rm -rf ${target} > /dev/null 2>&1
 mkdir ${target}
 mkdir ${downloads} > /dev/null 2>&1
 
-if [ ! -f ${file} ]; then
-  curl -L -o ${file} https://sourceforge.net/projects/gpgosx/files/${file}/download
+if [ ! -f ${downloads}/${file} ]; then
+  echo "curl -L -o ${download}/${file} https://sourceforge.net/projects/gpgosx/files/${file}/download"
+  curl -L -o ${downloads}/${file} https://sourceforge.net/projects/gpgosx/files/${file}/download
 fi
 
 cd ${target}
 
 if [ ! -d "/Volumes/GnuPG ${version}" ]; then
-  hdiutil attach ${file}
+  (cd ${downloads}; hdiutil attach ${file})
 fi
 
 cp /Volumes/GnuPG\ ${version}/Install.pkg .
