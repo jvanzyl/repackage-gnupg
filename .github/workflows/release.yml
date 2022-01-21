@@ -12,10 +12,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v2
-      - name: Repackage AWS CLI v2 for Darwin
-        run: ./repackage-awscli darwin
-      - name: Repackage AWS CLI v2 for Linux
-        run: ./repackage-awscli linux
+      - name: Repackage GnuPG v2 for Darwin
+        run: ./repackage-gnupg
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "repackage/*.tar.gz"
