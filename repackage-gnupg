@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+basedir=${PWD}
+version=2.3.4
+target=${basedir}/target
+repackage=${basedir}/repackage
+downloads=${basedir}/downloads
+file=${downloads}/GnuPG-${version}.dmg
+
+rm -rf ${repackage} > /dev/null 2>&1
+mkdir ${repackage}
+rm -rf ${target} > /dev/null 2>&1
+mkdir ${target}
+mkdir ${downloads} > /dev/null 2>&1
+
+if [ ! -f ${file} ]; then
+  curl -L -o ${file} https://sourceforge.net/projects/gpgosx/files/${file}/download
+fi
+
+cd ${target}
+
+if [ ! -d "/Volumes/GnuPG ${version}" ]; then
+  hdiutil attach ${file}
+fi
+
+cp /Volumes/GnuPG\ ${version}/Install.pkg .
+xar -xf Install.pkg
+mkdir install
+cd install
+gzcat ../GnuPG.pkg/Payload | cpio -id
+tar cvzf ${repackage}/gnupg-Darwin-x86_64-${version}.tar.gz *

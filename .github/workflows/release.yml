@@ -1,0 +1,22 @@
+name: release
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  build:
+    runs-on: macos-11
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+      - name: Repackage AWS CLI v2 for Darwin
+        run: ./repackage-awscli darwin
+      - name: Repackage AWS CLI v2 for Linux
+        run: ./repackage-awscli linux
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "repackage/*.tar.gz"
+          token: ${{ secrets.GITHUB_TOKEN }}
